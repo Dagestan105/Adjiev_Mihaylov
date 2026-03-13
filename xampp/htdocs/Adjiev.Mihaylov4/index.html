@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сервис найма временного персонала</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .hidden { display: none !important; }
+        #auth-section {
+            display: flex; align-items: center; justify-content: center;
+            min-height: 100vh; background: #f0f2f5; font-family: sans-serif;
+        }
+        .login-box {
+            background: white; padding: 40px; border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; text-align: center;
+        }
+        .login-box input {
+            width: 100%; padding: 12px; margin: 10px 0;
+            border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+
+<section id="auth-section">
+    <div class="login-box">
+        <i class="fas fa-user-shield" style="font-size: 3rem; color: #3498db;"></i>
+        <h2>Вход в систему</h2>
+        <input type="text" id="login-user" placeholder="Логин (manager или hr)">
+        <input type="password" id="login-pass" placeholder="Пароль">
+        <button class="btn btn-success" style="width:100%" onclick="handleLogin()">Войти</button>
+        <p style="font-size: 0.8rem; color: #888; margin-top: 15px;">Тест: manager / 123 или hr / 123</p>
+    </div>
+</section>
+
+<section id="home-page" class="container role-selection hidden">
+    <h1>Сервис найма временного персонала</h1>
+    <div class="role-cards">
+        <div class="role-card store-manager">
+            <i class="fas fa-store"></i>
+            <h3>Управляющий магазином</h3>
+            <button class="btn btn-success" onclick="renderRoleInterface('store-manager')">Перейти в кабинет</button>
+        </div>
+        <div class="role-card hr-specialist">
+            <i class="fas fa-users"></i>
+            <h3>Специалист HR</h3>
+            <button class="btn btn-warning" onclick="renderRoleInterface('hr-specialist')">Перейти в кабинет</button>
+        </div>
+    </div>
+    <button class="btn" style="margin-top:20px" onclick="handleLogout()">Выйти из аккаунта</button>
+</section>
+
+<section id="store-manager-interface" class="hidden">
+    <header>
+        <div class="container header-container">
+            <div class="logo"><span>ПерсоналСервис</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#" onclick="showStoreSection('store-dashboard')">Задания</a></li>
+                    <li><a href="#" onclick="showStoreSection('store-create-task')">Создать задание</a></li>
+                    <li><a href="#" onclick="handleLogout()">Выйти</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container dashboard">
+        <div class="content" id="store-dashboard">
+            <h2>Мои задания</h2>
+            <div class="table-container">
+                <table id="manager-tasks-table">
+                    <thead>
+                    <tr><th>ID</th><th>Работы</th><th>Дата</th><th>Статус</th></tr>
+                    </thead>
+                    <tbody id="manager-tasks-body"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="content hidden" id="store-create-task">
+            <h2>Новое задание</h2>
+            <div class="form-container">
+                <input type="text" id="task-name" class="form-control" placeholder="Наименование работ">
+                <input type="date" id="start-date" class="form-control">
+                <textarea id="worker-requirements" class="form-control" placeholder="Требования"></textarea>
+                <button class="btn btn-success" onclick="saveTaskDB()">Отправить в работу</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="hr-specialist-interface" class="hidden">
+    <header>
+        <div class="container header-container">
+            <div class="logo"><span>HR Кабинет</span></div>
+            <button class="btn" onclick="handleLogout()">Выйти</button>
+        </div>
+    </header>
+    <div class="container">
+        <h2>Заявки на подбор</h2>
+        <table border="1" style="width:100%; background:white;">
+            <thead>
+            <tr><th>Задание</th><th>Дата начала</th><th>Статус</th></tr>
+            </thead>
+            <tbody id="hr-table-body"></tbody>
+        </table>
+    </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html>
